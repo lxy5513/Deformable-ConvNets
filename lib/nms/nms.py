@@ -1,7 +1,16 @@
 import numpy as np
 
-from cpu_nms import cpu_nms
+from cpu_nms import cpu_nms, cpu_soft_nms
 from gpu_nms import gpu_nms
+
+def soft_nms(dets, sigma=0.6, Nt=0.3, threshold=0.001, method=1):
+
+    keep = cpu_soft_nms(np.ascontiguousarray(dets, dtype=np.float32),
+                        np.float32(sigma), np.float32(Nt),
+                        np.float32(threshold),
+                        np.uint8(method))
+    return keep
+
 
 def py_nms_wrapper(thresh):
     def _nms(dets):

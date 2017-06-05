@@ -5,8 +5,8 @@ symbol: resnet_v1_101_rfcn_dcn
 gpus: '0,1,2,3,4,5,6,7'
 CLASS_AGNOSTIC: true
 SCALES:
-- 600
-- 1000
+- 800
+- 1200
 default:
   frequent: 100
   kvstore: device
@@ -43,11 +43,12 @@ network:
   - 1
   - 2
   ANCHOR_SCALES:
+  - 2
   - 4
   - 8
   - 16
   - 32
-  NUM_ANCHORS: 12
+  NUM_ANCHORS: 15
 dataset:
   NUM_CLASSES: 81
   dataset: coco
