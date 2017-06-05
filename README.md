@@ -1,7 +1,3 @@
-# Deformable Convolutional Networks
-
-## Introduction
-
 **Deformable ConvNets** is initially described in an [arxiv tech report](https://arxiv.org/abs/1703.06211).
 
 **R-FCN** is initially described in a [NIPS 2016 paper](https://arxiv.org/abs/1605.06409).
