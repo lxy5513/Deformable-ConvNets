@@ -10,6 +10,7 @@ The trained model can be downloaded from [here](https://drive.google.com/file/d/
 
 |                                 | <sub>training data</sub> | <sub>testing data</sub>  | <sub>mAP</sub>  | <sub>mAP@0.5</sub> | <sub>mAP@0.75</sub>| <sub>mAP@S</sub> | <sub>mAP@M</sub> | <sub>mAP@L</sub> | <sub>Recall</sub> |
 |---------------------------------|---------------|---------------|------|---------|---------|-------|-------|-------|-------|
+| <sub>Baseline D-R-FCN</sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 35.7 | 56.8    | 38.3    | 15.2  | 38.8  | 51.5  |
 | <sub>D-R-FCN, ResNet-v1-101, NMS</sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 37.4 | 59.6    | 40.2    | 17.8  | 40.6  | 51.4  | 48.3  |
 | <sub>D-R-FCN, ResNet-v1-101, SNMS</sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 38.4 | 60.1    | 41.6    | 18.5  | 41.6  | 52.5  | 53.8  |
 | <sub>D-R-FCN, ResNet-v1-101, MST, NMS</sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 39.8 | 62.4    | 43.3    | 22.6  | 42.3  | 52.2  | 52.9  |
