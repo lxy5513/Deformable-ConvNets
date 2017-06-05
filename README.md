@@ -4,7 +4,7 @@
 
 **Soft-NMS** is initially described in an [arxiv tech report](https://arxiv.org/abs/1704.04503).
 
-Our goal was to test Soft-NMS with a state-of-the-art detector, so Deformable-R-FCN was trained on 800x1200 size images with 15 anchors. Multi-Scale testing was also added with 6 scales. Union of all boxes at different scale was computed before performing NMS. Please note that the repository does not include the scripts for multi-scale testing as I just cache the boxes for each different scale and do NMS separately. The scales used in multi-scale testing were as follows, [(480, 800), (576,900), (688, 1100), (800,1200), (1200, 1600), (1400, 2000)]. 
+Our goal was to test Soft-NMS with a state-of-the-art detector, so Deformable-R-FCN was trained on 800x1200 size images with 15 anchors. Multi-Scale testing was also added with 6 scales. Union of all boxes at each scale was computed before performing NMS. Please note that the repository does not include the scripts for multi-scale testing as I just cache the boxes for each different scale and do NMS separately. The scales used in multi-scale testing were as follows, [(480, 800), (576,900), (688, 1100), (800,1200), (1200, 1600), (1400, 2000)]. 
 
 The trained model can be downloaded from [here](https://drive.google.com/file/d/0B6T5quL13CdHZ3ZrRVNjcnFmZk0).
 
