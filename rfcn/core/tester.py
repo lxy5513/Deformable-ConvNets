@@ -196,7 +196,7 @@ def pred_eval(predictor, test_data, imdb, cfg, vis=False, thresh=1e-3, logger=No
     idx = 0
     data_time, net_time, post_time = 0.0, 0.0, 0.0
     t = time.time()
-	pl = Pool(8)
+    pl = Pool(8)
     for im_info, data_batch in test_data:
         t1 = time.time() - t
         t = time.time()
@@ -207,16 +207,16 @@ def pred_eval(predictor, test_data, imdb, cfg, vis=False, thresh=1e-3, logger=No
         t2 = time.time() - t
         t = time.time()
         for delta, (scores, boxes, data_dict) in enumerate(zip(scores_all, boxes_all, data_dict_all)):
-			commands = []
+	    commands = []
             for j in range(1, imdb.num_classes):
                 indexes = np.where(scores[:, j] > thresh)[0]
                 cls_scores = scores[indexes, j, np.newaxis]
                 cls_boxes = boxes[indexes, 4:8] if cfg.CLASS_AGNOSTIC else boxes[indexes, j * 4:(j + 1) * 4]
                 cls_dets = np.hstack((cls_boxes, cls_scores))
                 commands.append(cls_dets)
-			nms_dets = pl.map(psoft, commands)
-			for j in range(1, imdb.num_classes):
-                all_boxes[j][idx+delta] = nms_dets[j-1]
+	    nms_dets = pl.map(psoft, commands)
+	    for j in range(1, imdb.num_classes):
+		all_boxes[j][idx+delta] = nms_dets[j-1]
 
             if max_per_image > 0:
                 image_scores = np.hstack([all_boxes[j][idx+delta][:, -1]
@@ -240,7 +240,7 @@ def pred_eval(predictor, test_data, imdb, cfg, vis=False, thresh=1e-3, logger=No
         print 'testing {}/{} data {:.4f}s net {:.4f}s post {:.4f}s'.format(idx, imdb.num_images, data_time / idx * test_data.batch_size, net_time / idx * test_data.batch_size, post_time / idx * test_data.batch_size)
         if logger:
             logger.info('testing {}/{} data {:.4f}s net {:.4f}s post {:.4f}s'.format(idx, imdb.num_images, data_time / idx * test_data.batch_size, net_time / idx * test_data.batch_size, post_time / idx * test_data.batch_size))
-	pl.close()
+    pl.close()
     with open(det_file, 'wb') as f:
         cPickle.dump(all_boxes, f, protocol=cPickle.HIGHEST_PROTOCOL)
 
