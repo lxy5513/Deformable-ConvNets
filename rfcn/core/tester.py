@@ -151,8 +151,8 @@ def im_detect(predictor, data_batch, data_names, scales, cfg):
     return scores_all, pred_boxes_all, data_dict_all
 
 def psoft(cls_dets):
-    keep = soft_nms(cls_dets, method=2)
-    return cls_dets[keep]
+    cls_dets = soft_nms(cls_dets, method=2)
+    return cls_dets
 
 def pred_eval(predictor, test_data, imdb, cfg, vis=False, thresh=1e-3, logger=None, ignore_cache=True):
     """
