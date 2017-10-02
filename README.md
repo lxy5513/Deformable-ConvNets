@@ -15,6 +15,5 @@ The trained model can be downloaded from [here](https://drive.google.com/file/d/
 | <sub>D-R-FCN, ResNet-v1-101, SNMS</sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 38.4 | 60.1    | 41.6    | 18.5  | 41.6  | 52.5  | 53.8  |
 | <sub>D-R-FCN, ResNet-v1-101, MST, NMS</sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 39.8 | 62.4    | 43.3    | 22.6  | 42.3  | 52.2  | 52.9  |
 | <sub>D-R-FCN, ResNet-v1-101, MST, SNMS</sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 40.9 | 62.8    | 45.0    | 23.3  | 43.6  | 53.3  | 60.4  |
-| <sub>Scale Norm (coming soon) </sub> | <sub>coco trainval</sub> | <sub>coco test-dev</sub> | 48.3 | 69.7    | 53.7    | 31.4  | 51.6  | 60.7  | 66.7  |
 
 
