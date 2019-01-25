@@ -157,11 +157,11 @@ def main():
     #  import pdb;pdb.set_trace()
     import json
     data = json.dumps(human_boxes)
-    json_file = 'xxx.json'
+    json_file = img_dir +'/det.json'
     with open(json_file, 'wt') as f:
         f.write(data)
 
-    print 'done'
+    print 'json file save in '.format(json_file)
 
 if __name__ == '__main__':
     main()
