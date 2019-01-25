@@ -7,7 +7,9 @@
 # --------------------------------------------------------
 
 import _init_paths
+import pdb
 import matplotlib
+from tqdm import tqdm
 matplotlib.use('Agg')
 import argparse
 import os
@@ -39,7 +41,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Show Deformable ConvNets demo')
     # general
     parser.add_argument('--rfcn_only', help='whether use R-FCN only (w/o Deformable ConvNets)', default=False, action='store_true')
-
+    parser.add_argument('--img-dir', type=str, default='/home/xyliu/Videos/sports/dance', help='input image directory for detection')
     args = parser.parse_args()
     return args
 
@@ -65,19 +67,30 @@ def main():
                'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush']
 
     # load demo data
-    image_names = ['COCO_test2015_000000000891.jpg', 'COCO_test2015_000000001669.jpg']
+    #  image_names = ['COCO_test2015_000000000891.jpg', 'COCO_test2015_000000001669.jpg']
+    image_dir = args.img_dir
+    for img_dir,_, names_ in os.walk(image_dir):
+        image_names = names_
+    img_names = [i for i in image_names if 'jpg' in i]
+    img_names.sort()
+
     data = []
-    for im_name in image_names:
-        assert os.path.exists(cur_path + '/../demo/' + im_name), ('%s does not exist'.format('../demo/' + im_name))
-        im = cv2.imread(cur_path + '/../demo/' + im_name, cv2.IMREAD_COLOR | cv2.IMREAD_IGNORE_ORIENTATION)
-        target_size = config.SCALES[0][0]
-        max_size = config.SCALES[0][1]
-        im, im_scale = resize(im, target_size, max_size, stride=config.network.IMAGE_STRIDE)
-        im_tensor = transform(im, config.network.PIXEL_MEANS)
-        im_info = np.array([[im_tensor.shape[2], im_tensor.shape[3], im_scale]], dtype=np.float32)
-        data.append({'data': im_tensor, 'im_info': im_info})
+    for im_name in tqdm(img_names):
+        print(im_name)
+        try:
+            im = cv2.imread(img_dir+'/'+im_name, cv2.IMREAD_COLOR | cv2.IMREAD_IGNORE_ORIENTATION)
+            target_size = config.SCALES[0][0]
+            max_size = config.SCALES[0][1]
+            im, im_scale = resize(im, target_size, max_size, stride=config.network.IMAGE_STRIDE)
+            im_tensor = transform(im, config.network.PIXEL_MEANS)
+            im_info = np.array([[im_tensor.shape[2], im_tensor.shape[3], im_scale]], dtype=np.float32)
+            data.append({'data': im_tensor, 'im_info': im_info})
+        except:
+            import pdb;pdb.set_trace()
+            print('--------')
 
 
+    import pdb;pdb.set_trace()
     # get predictor
     data_names = ['data', 'im_info']
     label_names = []
@@ -102,7 +115,11 @@ def main():
 
     # test
 
-    for idx, im_name in enumerate(image_names):
+    # human box
+    import pdb;pdb.set_trace()
+    human_boxes = []
+    #  for idx, im_name in tqdm(enumerate(img_names)):
+    for idx, im_name in enumerate(tqdm(img_names)):
         data_batch = mx.io.DataBatch(data=[data[idx]], label=[], pad=0, index=idx,
                                      provide_data=[[(k, v.shape) for k, v in zip(data_names, data[idx])]],
                                      provide_label=[None])
@@ -123,9 +140,26 @@ def main():
             dets_nms.append(cls_dets)
         print 'testing {} {:.4f}s'.format(im_name, toc())
         # visualize
-        im = cv2.imread(cur_path + '/../demo/' + im_name)
+        im = cv2.imread(img_dir +'/'+ im_name)
         im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
-        show_boxes(im, dets_nms, classes, 1)
+
+        #######################################
+        ### dets_nms[0] 表示所有person bboxes
+        img_name = os.path.join(img_dir, im_name)
+        img_box = list(dets_nms[0][0][:4])
+        img_box = [round(i) for i in img_box]
+        human_boxes.append({'name':img_name, 'bbox':img_box})
+
+        #  import pdb;pdb.set_trace()
+        #  show_boxes(im, dets_nms, classes, 1)
+
+    ############ save to json
+    #  import pdb;pdb.set_trace()
+    import json
+    data = json.dumps(human_boxes)
+    json_file = 'xxx.json'
+    with open(json_file, 'wt') as f:
+        f.write(data)
 
     print 'done'
 
